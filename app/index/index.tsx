@@ -17,8 +17,8 @@ interface FormData {
   telefone: string;
   nomeEmpresa: string;
   cnpj: string;
-  estadoSelecionado: string;
-  cidadeSelecionada: string;
+  estado: string;
+  cidade: string;
 }
 
 export function Index() {
@@ -28,13 +28,17 @@ export function Index() {
     telefone: "",
     nomeEmpresa: "",
     cnpj: "",
-    estadoSelecionado: "",
-    cidadeSelecionada: "",
+    estado: "",
+    cidade: "",
   });
+
+  const GOOGLE_APPS_SCRIPT_URL =
+    "https://script.google.com/macros/s/AKfycbxRllKWwfhZyefora3bNO5Lfe3juvGb2Ajm-HtgKoqMIlKOxNk4Dd1631d3DX1vjtXm/exec";
 
   const [estados, setEstados] = useState<Estado[]>([]);
   const [cidades, setCidades] = useState<Cidade[]>([]);
-
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [submitMessage, setSubmitMessage] = useState<string | null>(null);
   useEffect(() => {
     fetch(
       "https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome"
@@ -56,9 +60,9 @@ export function Index() {
   }, []);
 
   useEffect(() => {
-    if (formData.estadoSelecionado) {
+    if (formData.estado) {
       fetch(
-        `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${formData.estadoSelecionado}/municipios?orderBy=nome`
+        `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${formData.estado}/municipios?orderBy=nome`
       )
         .then((response) => {
           if (!response.ok) {
@@ -74,12 +78,12 @@ export function Index() {
           setCidades(cidadesFormatadas);
           setFormData((prevData) => ({
             ...prevData,
-            cidadeSelecionada: "",
+            cidade: "",
           }));
         })
         .catch((error) =>
           console.error(
-            `Erro ao buscar cidades para ${formData.estadoSelecionado}:`,
+            `Erro ao buscar cidades para ${formData.estado}:`,
             error
           )
         );
@@ -87,10 +91,10 @@ export function Index() {
       setCidades([]);
       setFormData((prevData) => ({
         ...prevData,
-        cidadeSelecionada: "",
+        cidade: "",
       }));
     }
-  }, [formData.estadoSelecionado]);
+  }, [formData.estado]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -102,10 +106,89 @@ export function Index() {
     }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const isValidCNPJ = (cnpj: string): boolean => {
+    cnpj = cnpj.replace(/[^\d]+/g, "");
+    if (cnpj.length !== 14 || /^(\d)\1+$/.test(cnpj)) return false;
+
+    let tamanho = cnpj.length - 2;
+    let numeros = cnpj.substring(0, tamanho);
+    const digitos = cnpj.substring(tamanho);
+    let soma = 0;
+    let pos = tamanho - 7;
+    for (let i = tamanho; i >= 1; i--) {
+      soma += parseInt(numeros.charAt(tamanho - i)) * pos--;
+      if (pos < 2) pos = 9;
+    }
+    let resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
+    if (resultado !== parseInt(digitos.charAt(0))) return false;
+
+    tamanho += 1;
+    numeros = cnpj.substring(0, tamanho);
+    soma = 0;
+    pos = tamanho - 7;
+    for (let i = tamanho; i >= 1; i--) {
+      soma += parseInt(numeros.charAt(tamanho - i)) * pos--;
+      if (pos < 2) pos = 9;
+    }
+    resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
+    return resultado === parseInt(digitos.charAt(1));
+  };
+
+  const isValidPhone = (telefone: string): boolean => {
+    const digits = telefone.replace(/\D/g, "");
+    return /^\d{10,11}$/.test(digits);
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("Dados do Formulário:", formData);
-    alert("Formulário enviado! Verifique o console para os dados.");
+
+    if (!isValidCNPJ(formData.cnpj)) {
+      alert("CNPJ inválido. Verifique e tente novamente.");
+      return;
+    }
+
+    if (!isValidPhone(formData.telefone)) {
+      alert("Telefone inválido. Use o formato (XX) XXXXX-XXXX.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitMessage(null);
+
+    const dataToSend = new URLSearchParams();
+    for (const key in formData) {
+      dataToSend.append(key, String(formData[key as keyof FormData]));
+    }
+
+    try {
+      await fetch(GOOGLE_APPS_SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        cache: "no-cache",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: dataToSend,
+      });
+
+      setSubmitMessage("Cadastro enviado com sucesso! Aguarde o contato.");
+      setFormData({
+        nome: "",
+        email: "",
+        telefone: "",
+        nomeEmpresa: "",
+        cnpj: "",
+        estado: "",
+        cidade: "",
+      });
+    } catch (error) {
+      console.error("Erro ao enviar o formulário:", error);
+      setSubmitMessage(
+        "Erro ao enviar o cadastro. Por favor, tente novamente."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -173,7 +256,8 @@ export function Index() {
                   className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight"
                   id="telefone"
                   type="tel"
-                  placeholder="Telefone para contato"
+                  placeholder="(99) 99999-9999"
+                  pattern="\(\d{2}\) \d{5}-\d{4}"
                   value={formData.telefone}
                   onChange={handleChange}
                 />
@@ -210,7 +294,8 @@ export function Index() {
                 className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight "
                 id="cnpj"
                 type="text"
-                placeholder="CNPJ da empresa"
+                placeholder="99.999.999/9999-99"
+                pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}"
                 value={formData.cnpj}
                 onChange={handleChange}
               />
@@ -221,7 +306,7 @@ export function Index() {
               {/* Campo Estado */}
               <div className="w-full md:w-1/4">
                 <label
-                  htmlFor="estadoSelecionado"
+                  htmlFor="estado"
                   className="block tracking-wide text-gray-700 text-base font-bold mb-2"
                 >
                   Estado
@@ -229,8 +314,8 @@ export function Index() {
                 <div className="relative">
                   <select
                     className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight"
-                    id="estadoSelecionado"
-                    value={formData.estadoSelecionado}
+                    id="estado"
+                    value={formData.estado}
                     onChange={handleChange}
                   >
                     <option value="">Selecione</option>
@@ -255,7 +340,7 @@ export function Index() {
               {/* Campo Cidade */}
               <div className="w-full md:w-3/4">
                 <label
-                  htmlFor="cidadeSelecionada"
+                  htmlFor="cidade"
                   className="block tracking-wide text-gray-700 text-base font-bold mb-2"
                 >
                   Cidade
@@ -263,15 +348,13 @@ export function Index() {
                 <div className="relative">
                   <select
                     className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight"
-                    id="cidadeSelecionada"
-                    value={formData.cidadeSelecionada}
+                    id="cidade"
+                    value={formData.cidade}
                     onChange={handleChange}
-                    disabled={
-                      !formData.estadoSelecionado || cidades.length === 0
-                    }
+                    disabled={!formData.estado || cidades.length === 0}
                   >
                     <option value="">
-                      {formData.estadoSelecionado
+                      {formData.estado
                         ? cidades.length > 0
                           ? "Selecione uma Cidade"
                           : "Carregando Cidades..."
@@ -301,6 +384,7 @@ export function Index() {
               <button
                 type="submit"
                 className="bg-[#4100A5] text-white font-bold py-3 px-6 rounded-3xl hover:bg-[#f7941f] w-1/3 place-self-center"
+                disabled={isSubmitting}
               >
                 Começar
               </button>

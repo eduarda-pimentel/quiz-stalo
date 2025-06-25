@@ -7,7 +7,6 @@
 
 html,
 body {
-  background-image: linear-gradient(to right, 
-  #f7941f,
-  #4100a5);
+  background-image: linear-gradient(to right, #f7941f, #4100a5);
+  font-family: "Lexend", sans-serif;
 }
