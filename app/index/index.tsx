@@ -17,6 +17,7 @@ interface FormData {
   telefone: string;
   nomeEmpresa: string;
   cnpj: string;
+  cpf: string;
   estado: string;
   cidade: string;
 }
@@ -28,6 +29,7 @@ export function Index() {
     telefone: "",
     nomeEmpresa: "",
     cnpj: "",
+    cpf: "",
     estado: "",
     cidade: "",
   });
@@ -38,7 +40,8 @@ export function Index() {
   const [estados, setEstados] = useState<Estado[]>([]);
   const [cidades, setCidades] = useState<Cidade[]>([]);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [submitMessage, setSubmitMessage] = useState<string | null>(null);
+  const [validationError, setValidationError] = useState<string | null>(null);
+
   useEffect(() => {
     fetch(
       "https://servicodados.ibge.gov.br/api/v1/localidades/estados?orderBy=nome"
@@ -99,6 +102,7 @@ export function Index() {
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
+    setValidationError(null);
     const { id, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
@@ -109,7 +113,12 @@ export function Index() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setSubmitMessage(null);
+
+    if (formData.cnpj.trim() === "" && formData.cpf.trim() === "") {
+      setValidationError("Informe o CNPJ ou o CPF!");
+      setIsSubmitting(false);
+      return;
+    }
 
     const dataToSend = new URLSearchParams();
     for (const key in formData) {
@@ -132,21 +141,18 @@ export function Index() {
         body: dataToSend,
       });
 
-      setSubmitMessage("Cadastro enviado com sucesso! Aguarde o contato.");
       setFormData({
         nome: "",
         email: "",
         telefone: "",
         nomeEmpresa: "",
         cnpj: "",
+        cpf: "",
         estado: "",
         cidade: "",
       });
     } catch (error) {
       console.error("Erro ao enviar o formulário:", error);
-      setSubmitMessage(
-        "Erro ao enviar o cadastro. Por favor, tente novamente."
-      );
     } finally {
       setIsSubmitting(false);
     }
@@ -169,7 +175,7 @@ export function Index() {
               htmlFor="nome"
               className="block tracking-wide text-gray-700 text-base font-bold mb-2"
             >
-              Nome
+              Nome *
             </label>
             <input
               className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight "
@@ -178,6 +184,7 @@ export function Index() {
               placeholder="Seu nome aqui"
               value={formData.nome}
               onChange={handleChange}
+              required
             />
           </div>
 
@@ -189,7 +196,7 @@ export function Index() {
                 htmlFor="email"
                 className="block tracking-wide text-gray-700 text-base font-bold mb-2"
               >
-                Email
+                Email *
               </label>
               <input
                 className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight"
@@ -198,6 +205,7 @@ export function Index() {
                 placeholder="Email para contato"
                 value={formData.email}
                 onChange={handleChange}
+                required
               />
             </div>
 
@@ -207,7 +215,7 @@ export function Index() {
                 htmlFor="telefone"
                 className="block tracking-wide text-gray-700 text-base font-bold mb-2"
               >
-                Telefone
+                Telefone *
               </label>
               <InputMask
                 placeholder="(XX) XXXXX-XXXX"
@@ -217,20 +225,21 @@ export function Index() {
                 value={formData.telefone}
                 onChange={handleChange}
                 className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight"
+                required
               />
             </div>
           </div>
 
           {/* Campo: Nome da Empresa (ocupa uma linha inteira) */}
-          <div className="md:col-span-full">
+          <div className="">
             <label
               htmlFor="nomeEmpresa"
               className="block tracking-wide text-gray-700 text-base font-bold mb-2"
             >
-              Nome da empresa
+              Empresa
             </label>
             <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight"
+              className="sappearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight"
               id="nomeEmpresa"
               type="text"
               placeholder="Nome da sua empresa"
@@ -259,6 +268,24 @@ export function Index() {
           </div>
 
           {/* Bloco de Estado e Cidade */}
+          <div>
+            <label
+              htmlFor="cnpj"
+              className="block tracking-wide text-gray-700 text-base font-bold mb-2"
+            >
+              CPF
+            </label>
+            <InputMask
+              placeholder="XXX.XXX.XXX-XX"
+              mask="___.___.___-__"
+              replacement={{ _: /\d/ }}
+              id="cpf"
+              value={formData.cpf}
+              onChange={handleChange}
+              className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight"
+            />
+          </div>
+
           <div className="flex flex-col md:flex-row gap-7">
             {/* Campo Estado */}
             <div className="w-full md:w-1/4">
@@ -266,7 +293,7 @@ export function Index() {
                 htmlFor="estado"
                 className="block tracking-wide text-gray-700 text-base font-bold mb-2"
               >
-                Estado
+                Estado *
               </label>
               <div className="relative">
                 <select
@@ -274,6 +301,7 @@ export function Index() {
                   id="estado"
                   value={formData.estado}
                   onChange={handleChange}
+                  required
                 >
                   <option value="">Selecione</option>
                   {estados.map((estado) => (
@@ -300,10 +328,11 @@ export function Index() {
                 htmlFor="cidade"
                 className="block tracking-wide text-gray-700 text-base font-bold mb-2"
               >
-                Cidade
+                Cidade *
               </label>
               <div className="relative">
                 <select
+                  required
                   className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight"
                   id="cidade"
                   value={formData.cidade}
@@ -337,7 +366,7 @@ export function Index() {
           </div>
 
           {/* Botão de Envio */}
-          <div className="md:col-span-full mt-6 flex justify-center">
+          <div className="md:col-span-full mt-6 flex justify-center flex-col align-middle place-items-center">
             <button
               type="submit"
               className="bg-[#4100A5] text-white font-bold py-3 px-6 rounded-3xl hover:bg-[#f7941f] w-1/3 place-self-center"
@@ -345,6 +374,12 @@ export function Index() {
             >
               Começar
             </button>
+            {validationError && (
+              <p className="text-red-500 text-sm mt-2">{validationError}</p>
+            )}
+            {isSubmitting && !validationError && (
+              <p className="text-green-500 text-sm mt-2"> Enviando cadastro... </p>
+            )}
           </div>
         </div>
       </form>
