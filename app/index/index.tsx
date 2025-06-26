@@ -1,5 +1,6 @@
 import { useState, useEffect, type ChangeEvent, type FormEvent } from "react";
 import logo from "../assets/brand/logo.jpg";
+import { InputMask } from "@react-input/mask";
 
 interface Estado {
   id: string;
@@ -102,62 +103,23 @@ export function Index() {
     const { id, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [id]: value,
+      [id]: value.toString(),
     }));
-  };
-
-  const isValidCNPJ = (cnpj: string): boolean => {
-    cnpj = cnpj.replace(/[^\d]+/g, "");
-    if (cnpj.length !== 14 || /^(\d)\1+$/.test(cnpj)) return false;
-
-    let tamanho = cnpj.length - 2;
-    let numeros = cnpj.substring(0, tamanho);
-    const digitos = cnpj.substring(tamanho);
-    let soma = 0;
-    let pos = tamanho - 7;
-    for (let i = tamanho; i >= 1; i--) {
-      soma += parseInt(numeros.charAt(tamanho - i)) * pos--;
-      if (pos < 2) pos = 9;
-    }
-    let resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
-    if (resultado !== parseInt(digitos.charAt(0))) return false;
-
-    tamanho += 1;
-    numeros = cnpj.substring(0, tamanho);
-    soma = 0;
-    pos = tamanho - 7;
-    for (let i = tamanho; i >= 1; i--) {
-      soma += parseInt(numeros.charAt(tamanho - i)) * pos--;
-      if (pos < 2) pos = 9;
-    }
-    resultado = soma % 11 < 2 ? 0 : 11 - (soma % 11);
-    return resultado === parseInt(digitos.charAt(1));
-  };
-
-  const isValidPhone = (telefone: string): boolean => {
-    const digits = telefone.replace(/\D/g, "");
-    return /^\d{10,11}$/.test(digits);
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    if (!isValidCNPJ(formData.cnpj)) {
-      alert("CNPJ inválido. Verifique e tente novamente.");
-      return;
-    }
-
-    if (!isValidPhone(formData.telefone)) {
-      alert("Telefone inválido. Use o formato (XX) XXXXX-XXXX.");
-      return;
-    }
-
     setIsSubmitting(true);
     setSubmitMessage(null);
 
     const dataToSend = new URLSearchParams();
     for (const key in formData) {
-      dataToSend.append(key, String(formData[key as keyof FormData]));
+      let valueToAppend = String(formData[key as keyof FormData]);
+      if (key === "telefone" && valueToAppend) {
+        valueToAppend = "'" + valueToAppend;
+      }
+
+      dataToSend.append(key, valueToAppend);
     }
 
     try {
@@ -252,14 +214,14 @@ export function Index() {
                 >
                   Telefone
                 </label>
-                <input
-                  className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight"
+                <InputMask
+                  placeholder="(XX) XXXXX-XXXX"
+                  mask="+55 (__) _____-____"
+                  replacement={{ _: /\d/ }}
                   id="telefone"
-                  type="tel"
-                  placeholder="(99) 99999-9999"
-                  pattern="\(\d{2}\) \d{5}-\d{4}"
                   value={formData.telefone}
                   onChange={handleChange}
+                  className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight"
                 />
               </div>
             </div>
@@ -290,14 +252,14 @@ export function Index() {
               >
                 CNPJ
               </label>
-              <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight "
+              <InputMask
+                placeholder="XX.XXX.XXX/XXXX-XX"
+                mask="__.___.___/____-__"
+                replacement={{ _: /\d/ }}
                 id="cnpj"
-                type="text"
-                placeholder="99.999.999/9999-99"
-                pattern="\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}"
                 value={formData.cnpj}
                 onChange={handleChange}
+                className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight"
               />
             </div>
 
