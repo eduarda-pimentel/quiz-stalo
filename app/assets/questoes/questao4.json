@@ -1,0 +1,7 @@
+{
+    "questao":{
+        "pergunta": "10 – 10 x 10 +110 = ?",
+        "alternativas":["200", "110", "20", "0"],
+        "resposta": 2
+    }
+}

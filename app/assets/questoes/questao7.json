@@ -1,0 +1,7 @@
+{
+    "questao":{
+        "pergunta": "4:4+4:4 = ?",
+        "alternativas":["5/4", "2", "16", "4"],
+        "resposta": 1
+    }
+}

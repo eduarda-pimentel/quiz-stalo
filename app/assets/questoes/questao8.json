@@ -1,0 +1,7 @@
+{
+    "questao":{
+        "pergunta": "-(5^2) + 25 = ?",
+        "alternativas":["0", "25", "50", "-50"],
+        "resposta": 0
+    }
+}

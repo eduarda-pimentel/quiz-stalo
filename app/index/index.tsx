@@ -1,5 +1,4 @@
 import { useState, useEffect, type ChangeEvent, type FormEvent } from "react";
-import logo from "../assets/brand/logo.jpg";
 import { InputMask } from "@react-input/mask";
 
 interface Estado {
@@ -154,206 +153,201 @@ export function Index() {
   };
 
   return (
-    <section className="flex my-14 place-self-center w-10/12 bg-white h-full rounded-3xl flex-col">
-      <div className="h-28 mx-14 my-2">
-        <img className="h-full" src={logo} />
+    <>
+      <div className="items-center justify-center text-center place-self-center mb-8 flex flex-col">
+        <h1 className="text-black text-4xl font-bold mb-8">
+          Bem-vindo(a) ao Desafio Stalo!
+        </h1>
+        <h5 className="text-2xl">
+          Faça o cadastro, responda ao nosso desafio e concorra a um brinde
+        </h5>
       </div>
-      <div className="pb-8 px-48">
-        <div className="items-center justify-center text-center place-self-center mb-8 flex flex-col">
-          <h1 className="text-black text-4xl font-bold mb-8">
-            Bem-vindo(a) ao Desafio Stalo!
-          </h1>
-          <h5 className="text-2xl">
-            Faça o cadastro, responda ao nosso desafio e concorra a um brinde
-          </h5>
-        </div>
-        <form className="w-full place-self-center" onSubmit={handleSubmit}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-14 w-full">
-            <div>
+      <form className="w-full place-self-center" onSubmit={handleSubmit}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-14 w-full">
+          <div>
+            <label
+              htmlFor="nome"
+              className="block tracking-wide text-gray-700 text-base font-bold mb-2"
+            >
+              Nome
+            </label>
+            <input
+              className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight "
+              id="nome"
+              type="text"
+              placeholder="Seu nome aqui"
+              value={formData.nome}
+              onChange={handleChange}
+            />
+          </div>
+
+          {/* Campo: Email e Telefone */}
+          <div className="flex flex-col md:flex-row gap-7">
+            {/* Campo Email */}
+            <div className="w-full md:w-1/2">
               <label
-                htmlFor="nome"
+                htmlFor="email"
                 className="block tracking-wide text-gray-700 text-base font-bold mb-2"
               >
-                Nome
-              </label>
-              <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight "
-                id="nome"
-                type="text"
-                placeholder="Seu nome aqui"
-                value={formData.nome}
-                onChange={handleChange}
-              />
-            </div>
-
-            {/* Campo: Email e Telefone */}
-            <div className="flex flex-col md:flex-row gap-7">
-              {/* Campo Email */}
-              <div className="w-full md:w-1/2">
-                <label
-                  htmlFor="email"
-                  className="block tracking-wide text-gray-700 text-base font-bold mb-2"
-                >
-                  Email
-                </label>
-                <input
-                  className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight"
-                  id="email"
-                  type="email"
-                  placeholder="Email para contato"
-                  value={formData.email}
-                  onChange={handleChange}
-                />
-              </div>
-
-              {/* Campo Telefone */}
-              <div className="w-full md:w-1/2">
-                <label
-                  htmlFor="telefone"
-                  className="block tracking-wide text-gray-700 text-base font-bold mb-2"
-                >
-                  Telefone
-                </label>
-                <InputMask
-                  placeholder="(XX) XXXXX-XXXX"
-                  mask="+55 (__) _____-____"
-                  replacement={{ _: /\d/ }}
-                  id="telefone"
-                  value={formData.telefone}
-                  onChange={handleChange}
-                  className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight"
-                />
-              </div>
-            </div>
-
-            {/* Campo: Nome da Empresa (ocupa uma linha inteira) */}
-            <div className="md:col-span-full">
-              <label
-                htmlFor="nomeEmpresa"
-                className="block tracking-wide text-gray-700 text-base font-bold mb-2"
-              >
-                Nome da empresa
+                Email
               </label>
               <input
                 className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight"
-                id="nomeEmpresa"
-                type="text"
-                placeholder="Nome da sua empresa"
-                value={formData.nomeEmpresa}
+                id="email"
+                type="email"
+                placeholder="Email para contato"
+                value={formData.email}
                 onChange={handleChange}
               />
             </div>
 
-            {/* Campo: CNPJ */}
-            <div>
+            {/* Campo Telefone */}
+            <div className="w-full md:w-1/2">
               <label
-                htmlFor="cnpj"
+                htmlFor="telefone"
                 className="block tracking-wide text-gray-700 text-base font-bold mb-2"
               >
-                CNPJ
+                Telefone
               </label>
               <InputMask
-                placeholder="XX.XXX.XXX/XXXX-XX"
-                mask="__.___.___/____-__"
+                placeholder="(XX) XXXXX-XXXX"
+                mask="+55 (__) _____-____"
                 replacement={{ _: /\d/ }}
-                id="cnpj"
-                value={formData.cnpj}
+                id="telefone"
+                value={formData.telefone}
                 onChange={handleChange}
                 className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight"
               />
             </div>
+          </div>
 
-            {/* Bloco de Estado e Cidade */}
-            <div className="flex flex-col md:flex-row gap-7">
-              {/* Campo Estado */}
-              <div className="w-full md:w-1/4">
-                <label
-                  htmlFor="estado"
-                  className="block tracking-wide text-gray-700 text-base font-bold mb-2"
-                >
-                  Estado
-                </label>
-                <div className="relative">
-                  <select
-                    className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight"
-                    id="estado"
-                    value={formData.estado}
-                    onChange={handleChange}
-                  >
-                    <option value="">Selecione</option>
-                    {estados.map((estado) => (
-                      <option key={estado.id} value={estado.id}>
-                        {estado.nome}
-                      </option>
-                    ))}
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg
-                      className="fill-current h-4 w-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                    </svg>
-                  </div>
-                </div>
-              </div>
+          {/* Campo: Nome da Empresa (ocupa uma linha inteira) */}
+          <div className="md:col-span-full">
+            <label
+              htmlFor="nomeEmpresa"
+              className="block tracking-wide text-gray-700 text-base font-bold mb-2"
+            >
+              Nome da empresa
+            </label>
+            <input
+              className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight"
+              id="nomeEmpresa"
+              type="text"
+              placeholder="Nome da sua empresa"
+              value={formData.nomeEmpresa}
+              onChange={handleChange}
+            />
+          </div>
 
-              {/* Campo Cidade */}
-              <div className="w-full md:w-3/4">
-                <label
-                  htmlFor="cidade"
-                  className="block tracking-wide text-gray-700 text-base font-bold mb-2"
+          {/* Campo: CNPJ */}
+          <div>
+            <label
+              htmlFor="cnpj"
+              className="block tracking-wide text-gray-700 text-base font-bold mb-2"
+            >
+              CNPJ
+            </label>
+            <InputMask
+              placeholder="XX.XXX.XXX/XXXX-XX"
+              mask="__.___.___/____-__"
+              replacement={{ _: /\d/ }}
+              id="cnpj"
+              value={formData.cnpj}
+              onChange={handleChange}
+              className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight"
+            />
+          </div>
+
+          {/* Bloco de Estado e Cidade */}
+          <div className="flex flex-col md:flex-row gap-7">
+            {/* Campo Estado */}
+            <div className="w-full md:w-1/4">
+              <label
+                htmlFor="estado"
+                className="block tracking-wide text-gray-700 text-base font-bold mb-2"
+              >
+                Estado
+              </label>
+              <div className="relative">
+                <select
+                  className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight"
+                  id="estado"
+                  value={formData.estado}
+                  onChange={handleChange}
                 >
-                  Cidade
-                </label>
-                <div className="relative">
-                  <select
-                    className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight"
-                    id="cidade"
-                    value={formData.cidade}
-                    onChange={handleChange}
-                    disabled={!formData.estado || cidades.length === 0}
-                  >
-                    <option value="">
-                      {formData.estado
-                        ? cidades.length > 0
-                          ? "Selecione uma Cidade"
-                          : "Carregando Cidades..."
-                        : "Selecione um Estado primeiro"}
+                  <option value="">Selecione</option>
+                  {estados.map((estado) => (
+                    <option key={estado.id} value={estado.id}>
+                      {estado.nome}
                     </option>
-                    {cidades.map((cidade) => (
-                      <option key={cidade.id} value={cidade.nome}>
-                        {cidade.nome}
-                      </option>
-                    ))}
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg
-                      className="fill-current h-4 w-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                    >
-                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                    </svg>
-                  </div>
+                  ))}
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                  <svg
+                    className="fill-current h-4 w-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                  </svg>
                 </div>
               </div>
             </div>
 
-            {/* Botão de Envio */}
-            <div className="md:col-span-full mt-6 flex justify-center">
-              <button
-                type="submit"
-                className="bg-[#4100A5] text-white font-bold py-3 px-6 rounded-3xl hover:bg-[#f7941f] w-1/3 place-self-center"
-                disabled={isSubmitting}
+            {/* Campo Cidade */}
+            <div className="w-full md:w-3/4">
+              <label
+                htmlFor="cidade"
+                className="block tracking-wide text-gray-700 text-base font-bold mb-2"
               >
-                Começar
-              </button>
+                Cidade
+              </label>
+              <div className="relative">
+                <select
+                  className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight"
+                  id="cidade"
+                  value={formData.cidade}
+                  onChange={handleChange}
+                  disabled={!formData.estado || cidades.length === 0}
+                >
+                  <option value="">
+                    {formData.estado
+                      ? cidades.length > 0
+                        ? "Selecione uma Cidade"
+                        : "Carregando Cidades..."
+                      : "Selecione um Estado primeiro"}
+                  </option>
+                  {cidades.map((cidade) => (
+                    <option key={cidade.id} value={cidade.nome}>
+                      {cidade.nome}
+                    </option>
+                  ))}
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                  <svg
+                    className="fill-current h-4 w-4"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                  </svg>
+                </div>
+              </div>
             </div>
           </div>
-        </form>
-      </div>
-    </section>
+
+          {/* Botão de Envio */}
+          <div className="md:col-span-full mt-6 flex justify-center">
+            <button
+              type="submit"
+              className="bg-[#4100A5] text-white font-bold py-3 px-6 rounded-3xl hover:bg-[#f7941f] w-1/3 place-self-center"
+              disabled={isSubmitting}
+            >
+              Começar
+            </button>
+          </div>
+        </div>
+      </form>
+    </>
   );
 }

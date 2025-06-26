@@ -9,6 +9,7 @@ import {
 
 import type { Route } from "./+types/root";
 import "./app.css";
+import logo from "./assets/brand/logo.jpg";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -19,7 +20,7 @@ export const links: Route.LinksFunction = () => [
   },
   {
     rel: "stylesheet",
-    href:"https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap",
+    href: "https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap",
   },
 ];
 
@@ -33,7 +34,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body className="flex flex-col h-screen">
-        {children}
+        <section className="flex my-14 place-self-center w-10/12 bg-white h-full rounded-3xl flex-col">
+          <div className="h-28 mx-14 my-2">
+            <img className="h-full" src={logo} />
+          </div>
+          <div className="pb-8 px-48">
+
+            {children}
+          </div>
+        </section>
         <ScrollRestoration />
         <Scripts />
       </body>

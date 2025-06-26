@@ -1,0 +1,7 @@
+{
+    "questao":{
+        "pergunta": "Quanto é 8% de 5 horas?",
+        "alternativas":["40 min", "24 min", "20 min", "0,4 min"],
+        "resposta": 1
+    }
+}
