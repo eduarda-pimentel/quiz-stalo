@@ -35,13 +35,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body className="flex flex-col h-screen">
         <section className="flex my-14 place-self-center w-10/12 bg-white h-full rounded-3xl flex-col">
-          <div className="h-28 mx-14 my-2">
+          <div className="h-32 mx-14 my-2">
             <img className="h-full" src={logo} />
           </div>
-          <div className="pb-8 px-48">
-
-            {children}
-          </div>
+          {children}
         </section>
         <ScrollRestoration />
         <Scripts />

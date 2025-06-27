@@ -1,9 +1,12 @@
+import { useEffect, useState } from "react";
 import questao4 from "../assets/questoes/questao4.json";
 import questao5 from "../assets/questoes/questao5.json";
 import questao6 from "../assets/questoes/questao6.json";
 import questao7 from "../assets/questoes/questao7.json";
 import questao8 from "../assets/questoes/questao8.json";
 import questao9 from "../assets/questoes/questao9.json";
+import gis from "../assets/gis/gis-pergunta.jpg";
+import QuestaoTexto from "./QuestaoTexto";
 
 interface QuestaoData {
   pergunta: string;
@@ -12,6 +15,10 @@ interface QuestaoData {
 }
 
 export default function Questao() {
+  const [questaoSelecionada, setQuestaoSelecionada] =
+    useState<QuestaoData | null>(null);
+  const [valorSelecionado, setValorSelecionado] = useState<number | null>(null);
+
   function getRandomInteger(min: number, max: number) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -28,24 +35,47 @@ export default function Questao() {
   };
 
   const randomInt = getRandomInteger(4, 9);
-  const questaoSelecionada = questoes[randomInt];
+  
+  useEffect(() => {
+    setQuestaoSelecionada(questoes[randomInt]);
+  }, []);
+
+  useEffect(() => {
+    if (valorSelecionado) {
+      if (valorSelecionado === questaoSelecionada?.resposta) {
+        console.log("Parabéns!");
+      } else {
+        console.log("errou");
+      }
+    }
+  }, [valorSelecionado]);
 
   return (
     <>
-      <div className="items-center justify-center text-center place-self-center mb-14 flex flex-col">
-        <h1 className="text-black text-4xl font-semibold mb-8">
-         {questaoSelecionada.pergunta}
-        </h1>
-        
+      <div className="pb-8 px-48">
+        {randomInt >= 4 && randomInt <= 9 && questaoSelecionada && (
+          <QuestaoTexto pergunta={questaoSelecionada.pergunta} />
+        )}
+        <div className="w-4/5 h-64 grid grid-cols-1 md:grid-cols-2 place-self-center">
+          {questaoSelecionada && questaoSelecionada.alternativas.map(
+            (alternativa: string, ind: number) => {
+              return (
+                <button
+                  className="p-6 w-1/2  rounded-3xl bg-[#4100A5] hover:bg-[#f7941f] text-white place-self-center"
+                  key={ind}
+                  onClick={() => setValorSelecionado(ind)}
+                >
+                  {" "}
+                  <span className="text-xl"> {alternativa} </span>{" "}
+                </button>
+              );
+            }
+          )}
+        </div>
       </div>
-     <div className="w-4/5 h-full grid grid-cols-1 md:grid-cols-2 place-self-center">
-        {questaoSelecionada.alternativas.map((alternativa)=>{
-            return(
-                <button className="p-6 w-1/2  rounded-3xl bg-[#4100A5] hover:bg-[#f7941f] text-white place-self-center"> <span className="text-xl"> {alternativa} </span> </button>
-            )
-        })}
-     </div>
-      
+      <div className="h-40 flex justify-end mx-10 my-auto">
+        <img className="h-full" src={gis} />
+      </div>
     </>
   );
 }

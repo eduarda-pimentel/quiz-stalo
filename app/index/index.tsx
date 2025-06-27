@@ -1,5 +1,6 @@
 import { useState, useEffect, type ChangeEvent, type FormEvent } from "react";
 import { InputMask } from "@react-input/mask";
+import { useNavigate } from "react-router";
 
 interface Estado {
   id: string;
@@ -23,6 +24,7 @@ interface FormData {
 }
 
 export function Index() {
+  let navigate = useNavigate();
   const [formData, setFormData] = useState<FormData>({
     nome: "",
     email: "",
@@ -154,12 +156,14 @@ export function Index() {
     } catch (error) {
       console.error("Erro ao enviar o formulário:", error);
     } finally {
+      navigate("/questao");
       setIsSubmitting(false);
+      console.log("redirect")
     }
   };
 
   return (
-    <>
+    <div className="pb-8 px-48">
       <div className="items-center justify-center text-center place-self-center mb-8 flex flex-col">
         <h1 className="text-black text-4xl font-bold mb-8">
           Bem-vindo(a) ao Desafio Stalo!
@@ -378,11 +382,14 @@ export function Index() {
               <p className="text-red-500 text-sm mt-2">{validationError}</p>
             )}
             {isSubmitting && !validationError && (
-              <p className="text-green-500 text-sm mt-2"> Enviando cadastro... </p>
+              <p className="text-green-500 text-sm mt-2">
+                {" "}
+                Enviando cadastro...{" "}
+              </p>
             )}
           </div>
         </div>
       </form>
-    </>
+    </div>
   );
 }
