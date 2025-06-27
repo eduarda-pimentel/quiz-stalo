@@ -8,6 +8,14 @@ import questao9 from "../assets/questoes/questao9.json";
 import gis from "../assets/gis/gis-pergunta.jpg";
 import QuestaoTexto from "./QuestaoTexto";
 import { useNavigate } from "react-router";
+import type { Route } from "../+types/root";
+
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: "Quiz - Stalo" },
+    { name: "description", content: "Você consegue responder ao nosso quiz?" },
+  ];
+}
 
 interface QuestaoData {
   pergunta: string;
@@ -21,6 +29,7 @@ export default function Questao() {
     useState<QuestaoData | null>(null);
   const [valorSelecionado, setValorSelecionado] = useState<number>(-1);
   const [respondendo, setRespondendo] = useState(false);
+  const [tempoRestante, setTempoRestante] = useState(60);
 
   function getRandomInteger(min: number, max: number) {
     min = Math.ceil(min);
@@ -40,6 +49,19 @@ export default function Questao() {
   const randomInt = getRandomInteger(4, 9);
 
   useEffect(() => {
+    if (tempoRestante <= 0) {
+      navigate("/respostaErrada");
+      return;
+    }
+
+    const interval = setInterval(() => {
+      setTempoRestante((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [tempoRestante, navigate]);
+
+  useEffect(() => {
     setQuestaoSelecionada(questoes[randomInt]);
   }, []);
 
@@ -54,11 +76,11 @@ export default function Questao() {
         } else {
           navigate("/respostaErrada");
         }
-      }, 1500);
+      }, 2000);
 
       return () => clearTimeout(timer);
     }
-  }, [valorSelecionado, questaoSelecionada, navigate]);
+  }, [valorSelecionado, questaoSelecionada]);
 
   return (
     <>
@@ -66,6 +88,7 @@ export default function Questao() {
         {randomInt >= 4 && randomInt <= 9 && questaoSelecionada && (
           <QuestaoTexto pergunta={questaoSelecionada.pergunta} />
         )}
+
         <div className="w-4/5 h-64 grid grid-cols-1 md:grid-cols-2 place-self-center">
           {questaoSelecionada &&
             questaoSelecionada.alternativas.map(
@@ -90,7 +113,13 @@ export default function Questao() {
             )}
         </div>
       </div>
-      <div className="h-40 flex justify-end mx-10 my-auto">
+      <div className="h-40 flex justify-between items-center mx-10 ">
+        <div className="text-2xl font-light flex justify-end mx-10">
+          <p className="flex">
+            <span>Tempo restante:&nbsp;</span>
+            <span>{tempoRestante}&nbsp;s</span>
+          </p>
+        </div>
         <img className="h-full" src={gis} />
       </div>
     </>

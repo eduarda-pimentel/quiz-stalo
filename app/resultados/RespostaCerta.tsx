@@ -1,5 +1,13 @@
 import gis from "../assets/gis/gis-resposta-certa.jpg";
+import type { Route } from "../+types/root";
 import { useNavigate } from "react-router";
+
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: "Quiz - Stalo" },
+    { name: "description", content: "Você consegue responder ao nosso quiz?" },
+  ];
+}
 
 export default function QuestaoCerta() {
   let navigate = useNavigate();

@@ -1,5 +1,13 @@
 import gis from "../assets/gis/gis-resposta-errada.jpg";
 import { useNavigate } from "react-router";
+import type { Route } from "../+types/root";
+
+export function meta({}: Route.MetaArgs) {
+  return [
+    { title: "Quiz - Stalo" },
+    { name: "description", content: "Você consegue responder ao nosso quiz?" },
+  ];
+}
 
 export default function QuestaoErrada() {
   let navigate = useNavigate();
