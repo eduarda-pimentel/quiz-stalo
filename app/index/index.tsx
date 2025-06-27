@@ -158,7 +158,6 @@ export function Index() {
     } finally {
       navigate("/questao");
       setIsSubmitting(false);
-      console.log("redirect")
     }
   };
 
