@@ -164,7 +164,7 @@ export function Index() {
   return (
     <div className="pb-8 px-48">
       <div className="items-center justify-center text-center place-self-center mb-8 flex flex-col">
-        <h1 className="text-black text-4xl font-bold mb-8">
+        <h1 className="text-black text-4xl font-bold mb-2">
           Bem-vindo(a) ao Desafio Stalo!
         </h1>
         <h5 className="text-2xl">

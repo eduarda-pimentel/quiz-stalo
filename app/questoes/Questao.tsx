@@ -20,6 +20,7 @@ export default function Questao() {
   const [questaoSelecionada, setQuestaoSelecionada] =
     useState<QuestaoData | null>(null);
   const [valorSelecionado, setValorSelecionado] = useState<number>(-1);
+  const [respondendo, setRespondendo] = useState(false);
 
   function getRandomInteger(min: number, max: number) {
     min = Math.ceil(min);
@@ -43,16 +44,21 @@ export default function Questao() {
   }, []);
 
   useEffect(() => {
-    if (valorSelecionado>=0) {
-      setQuestaoSelecionada(null);
-      setValorSelecionado(-1);
-      if (valorSelecionado === questaoSelecionada?.resposta) {
-        navigate("/respostaCerta");
-      } else {
-        navigate("/respostaErrada");
-      }
+    if (valorSelecionado >= 0 && questaoSelecionada) {
+      const valorAtual = valorSelecionado;
+      const respostaCorreta = questaoSelecionada.resposta;
+
+      const timer = setTimeout(() => {
+        if (valorAtual === respostaCorreta) {
+          navigate("/respostaCerta");
+        } else {
+          navigate("/respostaErrada");
+        }
+      }, 1500);
+
+      return () => clearTimeout(timer);
     }
-  }, [valorSelecionado]);
+  }, [valorSelecionado, questaoSelecionada, navigate]);
 
   return (
     <>
@@ -66,9 +72,15 @@ export default function Questao() {
               (alternativa: string, ind: number) => {
                 return (
                   <button
+                    disabled={respondendo}
                     className="p-6 w-1/2  rounded-3xl bg-[#4100A5] hover:bg-[#f7941f] text-white place-self-center"
                     key={ind}
-                    onClick={() =>  setValorSelecionado(ind)}
+                    onClick={() => {
+                      if (!respondendo) {
+                        setRespondendo(true);
+                        setValorSelecionado(ind);
+                      }
+                    }}
                   >
                     {" "}
                     <span className="text-xl"> {alternativa} </span>{" "}
