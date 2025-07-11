@@ -7,6 +7,7 @@ import questao8 from "../assets/questoes/questao8.json";
 import questao9 from "../assets/questoes/questao9.json";
 import gis from "../assets/gis/gis-pergunta.jpg";
 import QuestaoTexto from "./QuestaoTexto";
+import QuestaoImagem from "./QuestaoImagem";
 import { useNavigate } from "react-router";
 import type { Route } from "../+types/root";
 
@@ -25,11 +26,12 @@ interface QuestaoData {
 
 export default function Questao() {
   let navigate = useNavigate();
+  const [randomInt] = useState(() => getRandomInteger(4, 9));
   const [questaoSelecionada, setQuestaoSelecionada] =
     useState<QuestaoData | null>(null);
   const [valorSelecionado, setValorSelecionado] = useState<number>(-1);
   const [respondendo, setRespondendo] = useState(false);
-  const [tempoRestante, setTempoRestante] = useState(60);
+  const [tempoRestante, setTempoRestante] = useState(16000);
 
   function getRandomInteger(min: number, max: number) {
     min = Math.ceil(min);
@@ -46,7 +48,9 @@ export default function Questao() {
     9: questao9.questao,
   };
 
-  const randomInt = getRandomInteger(4, 9);
+  useEffect(() => {
+    setQuestaoSelecionada(questoes[randomInt]);
+  }, [randomInt]);
 
   useEffect(() => {
     if (tempoRestante <= 0) {
@@ -83,38 +87,39 @@ export default function Questao() {
   }, [valorSelecionado, questaoSelecionada]);
 
   return (
-    <>
-      <div className="pb-8 px-48">
-        {randomInt >= 4 && randomInt <= 9 && questaoSelecionada && (
+    <div className="flex flex-col flex-grow h-full mx-14 border">
+      <div className="flex-grow flex flex-col justify-center items-center min-h-0 max-h-full">
+        {randomInt >= 4 && questaoSelecionada && randomInt <= 9 ? (
           <QuestaoTexto pergunta={questaoSelecionada.pergunta} />
+        ) : (
+          <QuestaoImagem random={0} />
         )}
-
-        <div className="w-4/5 h-64 grid grid-cols-1 md:grid-cols-2 place-self-center">
-          {questaoSelecionada &&
-            questaoSelecionada.alternativas.map(
-              (alternativa: string, ind: number) => {
-                return (
-                  <button
-                    disabled={respondendo}
-                    className="p-6 w-1/2  rounded-3xl bg-[#4100A5] hover:bg-[#f7941f] text-white place-self-center"
-                    key={ind}
-                    onClick={() => {
-                      if (!respondendo) {
-                        setRespondendo(true);
-                        setValorSelecionado(ind);
-                      }
-                    }}
-                  >
-                    {" "}
-                    <span className="text-xl"> {alternativa} </span>{" "}
-                  </button>
-                );
-              }
-            )}
-        </div>
       </div>
-      <div className="h-40 flex justify-between items-center mx-10 ">
-        <div className="text-2xl font-light flex justify-end mx-10">
+      <div className="w-4/5 h-64 grid grid-cols-1 md:grid-cols-2 place-self-center m-0 ">
+        {questaoSelecionada &&
+          questaoSelecionada.alternativas.map(
+            (alternativa: string, ind: number) => {
+              return (
+                <button
+                  disabled={respondendo}
+                  className="p-6 w-1/2 rounded-3xl bg-[#4100A5] hover:bg-[#f7941f] text-white place-self-center"
+                  key={ind}
+                  onClick={() => {
+                    if (!respondendo) {
+                      setRespondendo(true);
+                      setValorSelecionado(ind);
+                    }
+                  }}
+                >
+                  <span className="text-xl"> {alternativa} </span>
+                </button>
+              );
+            }
+          )}
+      </div>
+
+      <div className="h-32 w-full flex justify-between items-center">
+        <div className="text-2xl font-light flex justify-end">
           <p className="flex">
             <span>Tempo restante:&nbsp;</span>
             <span>{tempoRestante}&nbsp;s</span>
@@ -122,6 +127,6 @@ export default function Questao() {
         </div>
         <img className="h-full" src={gis} />
       </div>
-    </>
+    </div>
   );
 }
