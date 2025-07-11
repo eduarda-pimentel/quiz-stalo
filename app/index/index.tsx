@@ -162,26 +162,26 @@ export function Index() {
   };
 
   return (
-    <div className="pb-8 px-48">
-      <div className="items-center justify-center text-center place-self-center mb-8 flex flex-col">
-        <h1 className="text-black text-4xl font-bold mb-2">
+    <div className="px-48 my-auto">
+      <div className="items-center justify-center text-center place-self-center mb-4 flex flex-col">
+        <h1 className="text-black text-3xl font-bold mb-1">
           Bem-vindo(a) ao Desafio Stalo!
         </h1>
-        <h5 className="text-2xl">
+        <h5 className="text-xl">
           Faça o cadastro, responda ao nosso desafio e concorra a um brinde
         </h5>
       </div>
       <form className="w-full place-self-center" onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-14 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full">
           <div>
             <label
               htmlFor="nome"
-              className="block tracking-wide text-gray-700 text-base font-bold mb-2"
+              className="block tracking-wide text-gray-700 text-base font-bold mb-1"
             >
               Nome *
             </label>
             <input
-              className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight "
+              className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-2 px-4 leading-tight "
               id="nome"
               type="text"
               placeholder="Seu nome aqui"
@@ -197,12 +197,12 @@ export function Index() {
             <div className="w-full md:w-1/2">
               <label
                 htmlFor="email"
-                className="block tracking-wide text-gray-700 text-base font-bold mb-2"
+                className="block tracking-wide text-gray-700 text-base font-bold mb-1"
               >
                 Email *
               </label>
               <input
-                className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight"
+                className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-2 px-4 leading-tight"
                 id="email"
                 type="email"
                 placeholder="Email para contato"
@@ -216,7 +216,7 @@ export function Index() {
             <div className="w-full md:w-1/2">
               <label
                 htmlFor="telefone"
-                className="block tracking-wide text-gray-700 text-base font-bold mb-2"
+                className="block tracking-wide text-gray-700 text-base font-bold mb-1"
               >
                 Telefone *
               </label>
@@ -227,7 +227,7 @@ export function Index() {
                 id="telefone"
                 value={formData.telefone}
                 onChange={handleChange}
-                className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight"
+                className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-2 px-4 leading-tight"
                 required
               />
             </div>
@@ -237,12 +237,12 @@ export function Index() {
           <div className="">
             <label
               htmlFor="nomeEmpresa"
-              className="block tracking-wide text-gray-700 text-base font-bold mb-2"
+              className="block tracking-wide text-gray-700 text-base font-bold mb-1"
             >
               Empresa
             </label>
             <input
-              className="sappearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight"
+              className="sappearance-none block w-full bg-gray-200 text-gray-700 rounded py-2 px-4 leading-tight"
               id="nomeEmpresa"
               type="text"
               placeholder="Nome da sua empresa"
@@ -255,7 +255,7 @@ export function Index() {
           <div>
             <label
               htmlFor="cnpj"
-              className="block tracking-wide text-gray-700 text-base font-bold mb-2"
+              className="block tracking-wide text-gray-700 text-base font-bold mb-1"
             >
               CNPJ
             </label>
@@ -266,7 +266,7 @@ export function Index() {
               id="cnpj"
               value={formData.cnpj}
               onChange={handleChange}
-              className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight"
+              className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-2 px-4 leading-tight"
             />
           </div>
 
@@ -274,7 +274,7 @@ export function Index() {
           <div>
             <label
               htmlFor="cnpj"
-              className="block tracking-wide text-gray-700 text-base font-bold mb-2"
+              className="block tracking-wide text-gray-700 text-base font-bold mb-1"
             >
               CPF
             </label>
@@ -285,7 +285,7 @@ export function Index() {
               id="cpf"
               value={formData.cpf}
               onChange={handleChange}
-              className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 leading-tight"
+              className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-2 px-4 leading-tight"
             />
           </div>
 
@@ -294,13 +294,13 @@ export function Index() {
             <div className="w-full md:w-1/4">
               <label
                 htmlFor="estado"
-                className="block tracking-wide text-gray-700 text-base font-bold mb-2"
+                className="block tracking-wide text-gray-700 text-base font-bold mb-1"
               >
                 Estado *
               </label>
               <div className="relative">
                 <select
-                  className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight"
+                  className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight"
                   id="estado"
                   value={formData.estado}
                   onChange={handleChange}
@@ -329,14 +329,14 @@ export function Index() {
             <div className="w-full md:w-3/4">
               <label
                 htmlFor="cidade"
-                className="block tracking-wide text-gray-700 text-base font-bold mb-2"
+                className="block tracking-wide text-gray-700 text-base font-bold mb-1"
               >
                 Cidade *
               </label>
               <div className="relative">
                 <select
                   required
-                  className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight"
+                  className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight"
                   id="cidade"
                   value={formData.cidade}
                   onChange={handleChange}

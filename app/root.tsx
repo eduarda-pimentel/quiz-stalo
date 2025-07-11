@@ -33,10 +33,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="flex flex-col h-screen justify-center items-center py-8">
+      <body className="flex flex-col h-screen justify-center items-center py-[2.5%]">
       
-        <section className="flex flex-col flex-grow w-10/12 bg-white h-full rounded-3xl p-1">
-          <div className="h-32 mx-14 border">
+        <section className="flex flex-col flex-grow w-10/12 bg-white rounded-3xl p-1 overflow-hidden">
+          <div className="h-[10%] mx-14">
             <img className="h-full" src={logo} alt="Logo" /> 
           </div>
           {children}

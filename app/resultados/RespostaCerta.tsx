@@ -13,9 +13,9 @@ export default function QuestaoCerta() {
   let navigate = useNavigate();
   return (
     <>
-      <div className="pb-8 px-48">
-        <div className="items-center justify-center text-center place-self-center mb-14 flex flex-col">
-          <h1 className="text-black text-4xl font-semibold mb-8">
+      <div className="my-auto px-48">
+        <div className="items-center justify-center text-center place-self-center mb-2 flex flex-col">
+          <h1 className="text-black text-3xl font-semibold mb-4">
             Resposta certa!
           </h1>
         </div>
@@ -26,7 +26,7 @@ export default function QuestaoCerta() {
             participar!{" "}
           </p>
         </div>
-        <div className="h-60 flex justify-center mt-28">
+        <div className="h-48 flex justify-center mt-8">
           <img className="h-full" src={gis} />
         </div>
       </div>

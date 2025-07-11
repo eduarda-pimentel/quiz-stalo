@@ -31,7 +31,7 @@ export default function Questao() {
     useState<QuestaoData | null>(null);
   const [valorSelecionado, setValorSelecionado] = useState<number>(-1);
   const [respondendo, setRespondendo] = useState(false);
-  const [tempoRestante, setTempoRestante] = useState(16000);
+  const [tempoRestante, setTempoRestante] = useState(60);
 
   function getRandomInteger(min: number, max: number) {
     min = Math.ceil(min);
@@ -87,39 +87,41 @@ export default function Questao() {
   }, [valorSelecionado, questaoSelecionada]);
 
   return (
-    <div className="flex flex-col flex-grow h-full mx-14 border">
-      <div className="flex-grow flex flex-col justify-center items-center min-h-0 max-h-full">
-        {randomInt >= 4 && questaoSelecionada && randomInt <= 9 ? (
-          <QuestaoTexto pergunta={questaoSelecionada.pergunta} />
-        ) : (
-          <QuestaoImagem random={0} />
-        )}
-      </div>
-      <div className="w-4/5 h-64 grid grid-cols-1 md:grid-cols-2 place-self-center m-0 ">
-        {questaoSelecionada &&
-          questaoSelecionada.alternativas.map(
-            (alternativa: string, ind: number) => {
-              return (
-                <button
-                  disabled={respondendo}
-                  className="p-6 w-1/2 rounded-3xl bg-[#4100A5] hover:bg-[#f7941f] text-white place-self-center"
-                  key={ind}
-                  onClick={() => {
-                    if (!respondendo) {
-                      setRespondendo(true);
-                      setValorSelecionado(ind);
-                    }
-                  }}
-                >
-                  <span className="text-xl"> {alternativa} </span>
-                </button>
-              );
-            }
+    <>
+    
+      <div className="flex flex-col my-auto px-48">
+        <div className="items-center justify-center text-center place-self-center mb-4 flex flex-col">
+          {randomInt >= 4 && questaoSelecionada && randomInt <= 9 ? (
+            <QuestaoTexto pergunta={questaoSelecionada.pergunta} />
+          ) : (
+            <QuestaoImagem random={0} />
           )}
+        </div>
+        <div className="w-4/5 h-11/12 grid grid-cols-1 md:grid-cols-2 place-self-center m-0 gap-4">
+          {questaoSelecionada &&
+            questaoSelecionada.alternativas.map(
+              (alternativa: string, ind: number) => {
+                return (
+                  <button
+                    disabled={respondendo}
+                    className="p-6 w-1/2 rounded-3xl bg-[#4100A5] hover:bg-[#f7941f] text-white place-self-center"
+                    key={ind}
+                    onClick={() => {
+                      if (!respondendo) {
+                        setRespondendo(true);
+                        setValorSelecionado(ind);
+                      }
+                    }}
+                  >
+                    <span className="text-xl"> {alternativa} </span>
+                  </button>
+                );
+              }
+            )}
+        </div>
       </div>
-
-      <div className="h-32 w-full flex justify-between items-center">
-        <div className="text-2xl font-light flex justify-end">
+      <div className="h-[15%] w-full flex justify-between items-center px-14 py-2">
+        <div className="text-xl font-light flex justify-end">
           <p className="flex">
             <span>Tempo restante:&nbsp;</span>
             <span>{tempoRestante}&nbsp;s</span>
@@ -127,6 +129,6 @@ export default function Questao() {
         </div>
         <img className="h-full" src={gis} />
       </div>
-    </div>
+    </>
   );
 }
