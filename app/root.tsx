@@ -25,7 +25,7 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
-   return (
+  return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
@@ -33,11 +33,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="flex flex-col h-screen justify-center items-center py-[5.5%]">
-      
-        <section className="flex flex-col flex-grow w-9/12 bg-white rounded-3xl p-1 overflow-hidden">
-          <div className="h-[12%] mx-14">
-            <img className="h-full" src={logo} alt="Logo" /> 
+      <body className="flex flex-col h-screen justify-center items-center">
+        <section className="flex flex-col w-9/12 h-4/5  bg-white rounded-3xl p-1 overflow-hidden">
+          <div className="h-1/6 mx-14">
+            <img className="h-full" src={logo} alt="Logo" />
           </div>
           {children}
         </section>

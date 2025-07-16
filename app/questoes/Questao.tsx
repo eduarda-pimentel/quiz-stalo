@@ -120,7 +120,7 @@ export default function Questao() {
             )}
         </div>
       </div>
-      <div className="h-[15%] w-full flex justify-between items-center px-14 py-2">
+      <div className="h-1/6 w-full flex justify-between items-center px-14 py-2">
         <div className="text-xl font-light flex justify-end">
           <p className="flex">
             <span>Tempo restante:&nbsp;</span>
