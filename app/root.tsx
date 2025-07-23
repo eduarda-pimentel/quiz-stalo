@@ -33,9 +33,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="flex flex-col h-screen justify-center items-center">
-        <section className="flex flex-col w-9/12 h-4/5  bg-white rounded-3xl p-1 overflow-hidden">
-          <div className="h-1/6 mx-14">
+      <body className="flex flex-col h-screen  overflow-hidden">
+        <section className="flex flex-col w-10/12 place-self-center my-30 h-[1000px] bg-white rounded-3xl p-1 overflow-hidden">
+          <div className="h-[150px] mx-14">
             <img className="h-full" src={logo} alt="Logo" />
           </div>
           {children}

@@ -162,21 +162,21 @@ export function Index() {
   };
 
   return (
-    <div className="px-48 my-auto">
+    <div className="px-24 h-full my-auto">
       <div className="items-center justify-center text-center place-self-center mb-4 flex flex-col">
-        <h1 className="text-black text-3xl font-bold mb-1">
+        <h1 className="text-black text-4xl font-bold mb-1">
           Bem-vindo(a) ao Desafio Stalo!
         </h1>
-        <h5 className="text-xl">
+        <h5 className="text-3xl">
           Faça o cadastro, responda ao nosso desafio e concorra a um brinde
         </h5>
       </div>
-      <form className="w-full place-self-center" onSubmit={handleSubmit}>
+      <form className="w-full place-self-center my-40" onSubmit={handleSubmit}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 w-full">
           <div>
             <label
               htmlFor="nome"
-              className="block tracking-wide text-gray-700 text-base font-bold mb-1"
+              className="block tracking-wide text-gray-700 text-3xl font-bold mb-1"
             >
               Nome *
             </label>
@@ -197,7 +197,7 @@ export function Index() {
             <div className="w-full md:w-1/2">
               <label
                 htmlFor="email"
-                className="block tracking-wide text-gray-700 text-base font-bold mb-1"
+                className="block tracking-wide text-gray-700 text-3xl font-bold mb-1"
               >
                 Email *
               </label>
@@ -216,7 +216,7 @@ export function Index() {
             <div className="w-full md:w-1/2">
               <label
                 htmlFor="telefone"
-                className="block tracking-wide text-gray-700 text-base font-bold mb-1"
+                className="block tracking-wide text-gray-700 text-3xl font-bold mb-1"
               >
                 Telefone *
               </label>
@@ -237,7 +237,7 @@ export function Index() {
           <div className="">
             <label
               htmlFor="nomeEmpresa"
-              className="block tracking-wide text-gray-700 text-base font-bold mb-1"
+              className="block tracking-wide text-gray-700 text-3xl font-bold mb-1"
             >
               Empresa
             </label>
@@ -255,7 +255,7 @@ export function Index() {
           <div>
             <label
               htmlFor="cnpj"
-              className="block tracking-wide text-gray-700 text-base font-bold mb-1"
+              className="block tracking-wide text-gray-700 text-3xl font-bold mb-1"
             >
               CNPJ
             </label>
@@ -274,7 +274,7 @@ export function Index() {
           <div>
             <label
               htmlFor="cnpj"
-              className="block tracking-wide text-gray-700 text-base font-bold mb-1"
+              className="block tracking-wide text-gray-700 text-3xl font-bold mb-1"
             >
               CPF
             </label>
@@ -294,7 +294,7 @@ export function Index() {
             <div className="w-full md:w-1/4">
               <label
                 htmlFor="estado"
-                className="block tracking-wide text-gray-700 text-base font-bold mb-1"
+                className="block tracking-wide text-gray-700 text-3xl font-bold mb-1"
               >
                 Estado *
               </label>
@@ -329,7 +329,7 @@ export function Index() {
             <div className="w-full md:w-3/4">
               <label
                 htmlFor="cidade"
-                className="block tracking-wide text-gray-700 text-base font-bold mb-1"
+                className="block tracking-wide text-gray-700 text-3xl font-bold mb-1"
               >
                 Cidade *
               </label>
@@ -369,19 +369,19 @@ export function Index() {
           </div>
 
           {/* Botão de Envio */}
-          <div className="md:col-span-full mt-6 flex justify-center flex-col align-middle place-items-center">
+          <div className="md:col-span-full mt-2 flex justify-center flex-col align-middle place-items-center">
             <button
               type="submit"
-              className="bg-[#4100A5] text-white font-bold py-3 px-6 rounded-3xl hover:bg-[#f7941f] w-1/3 place-self-center"
+              className="bg-[#4100A5] text-white font-bold py-6 px-6 rounded-3xl text-3xl hover:bg-[#f7941f] w-1/4 place-self-center"
               disabled={isSubmitting}
             >
               Começar
             </button>
             {validationError && (
-              <p className="text-red-500 text-sm mt-2">{validationError}</p>
+              <p className="text-red-500 text-3xl mt-2">{validationError}</p>
             )}
             {isSubmitting && !validationError && (
-              <p className="text-green-500 text-sm mt-2">
+              <p className="text-green-500 text-3xl mt-2">
                 {" "}
                 Enviando cadastro...{" "}
               </p>

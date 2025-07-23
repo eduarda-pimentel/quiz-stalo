@@ -15,18 +15,17 @@ export default function QuestaoCerta() {
     <>
       <div className="my-auto px-48">
         <div className="items-center justify-center text-center place-self-center mb-2 flex flex-col">
-          <h1 className="text-black text-3xl font-semibold mb-4">
+          <h1 className="text-black text-2xl font-semibold mb-4">
             Resposta certa!
           </h1>
         </div>
         <div className="flex justify-center">
-          <p className="text-2xl">
-            {" "}
+          <p className="text-xl text-center">
             Você agora pode pegar o seu brinde. Parabéns e obrigada por
-            participar!{" "}
+            participar!
           </p>
         </div>
-        <div className="h-48 flex justify-center mt-8">
+        <div className="h-40 flex justify-center mt-8">
           <img className="h-full" src={gis} />
         </div>
       </div>

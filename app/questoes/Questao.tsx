@@ -88,8 +88,7 @@ export default function Questao() {
 
   return (
     <>
-    
-      <div className="flex flex-col my-auto px-48">
+      <div className="flex flex-col mt-40 px-24">
         <div className="items-center justify-center text-center place-self-center mb-4 flex flex-col">
           {randomInt >= 4 && questaoSelecionada && randomInt <= 9 ? (
             <QuestaoTexto pergunta={questaoSelecionada.pergunta} />
@@ -97,7 +96,7 @@ export default function Questao() {
             <QuestaoImagem random={0} />
           )}
         </div>
-        <div className="w-4/5 h-11/12 grid grid-cols-1 md:grid-cols-2 place-self-center m-0 gap-4">
+        <div className="w-4/5 h-11/12 grid grid-cols-1 md:grid-cols-2 place-self-center m-0 gap-14">
           {questaoSelecionada &&
             questaoSelecionada.alternativas.map(
               (alternativa: string, ind: number) => {
@@ -113,15 +112,15 @@ export default function Questao() {
                       }
                     }}
                   >
-                    <span className="text-xl"> {alternativa} </span>
+                    <span className="text-3xl"> {alternativa} </span>
                   </button>
                 );
               }
             )}
         </div>
       </div>
-      <div className="h-1/6 w-full flex justify-between items-center px-14 py-2">
-        <div className="text-xl font-light flex justify-end">
+      <div className="mt-auto h-[250px] w-full flex justify-between items-center px-14 py-2">
+        <div className="text-3xl font-light flex justify-end">
           <p className="flex">
             <span>Tempo restante:&nbsp;</span>
             <span>{tempoRestante}&nbsp;s</span>
