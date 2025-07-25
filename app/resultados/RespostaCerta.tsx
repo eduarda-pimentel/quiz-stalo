@@ -13,26 +13,25 @@ export default function QuestaoCerta() {
   let navigate = useNavigate();
   return (
     <>
-      <div className="my-auto px-48">
+      <div className="my-40 px-24">
         <div className="items-center justify-center text-center place-self-center mb-2 flex flex-col">
-          <h1 className="text-black text-2xl font-semibold mb-4">
-            Resposta certa!
+          <h1 className="text-black text-4xl font-semibold mb-4">
+           Resposta certa!
           </h1>
         </div>
         <div className="flex justify-center">
-          <p className="text-xl text-center">
-            Você agora pode pegar o seu brinde. Parabéns e obrigada por
-            participar!
+          <p className="text-3xl text-wrap text-center">
+            Parabéns! Você pode agora pegar o seu brinde. Obrigada por participar!
           </p>
         </div>
-        <div className="h-40 flex justify-center mt-8">
+        <div className="h-[250px] flex justify-center mt-8">
           <img className="h-full" src={gis} />
         </div>
       </div>
-      <div className="flex justify-end mx-10 my-4">
+      <div className="flex justify-end mx-10 my-auto">
         <button
-          className="bg-[#4100A5] text-white font-bold py-3 px-6 rounded-3xl hover:bg-[#f7941f]"
-          onClick={()=>navigate('/')}
+          className="bg-[#4100A5] text-white text-2xl font-bold py-3 px-6 rounded-3xl hover:bg-[#f7941f]"
+          onClick={() => navigate("/")}
         >
           Voltar ao início
         </button>
