@@ -80,7 +80,7 @@ export default function Questao() {
         } else {
           navigate("/respostaErrada");
         }
-      }, 2000);
+      }, 700);
 
       return () => clearTimeout(timer);
     }

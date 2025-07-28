@@ -2,6 +2,6 @@
     "questao":{
         "pergunta": "6:2(2+1) = ?",
         "alternativas":["1", "9", "12", "24"],
-        "resposta": 0
+        "resposta": 1
     }
 }
