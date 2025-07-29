@@ -90,10 +90,8 @@ export default function Questao() {
     <>
       <div className="flex flex-col mt-40 px-24">
         <div className="items-center justify-center text-center place-self-center mb-4 flex flex-col">
-          {randomInt >= 4 && questaoSelecionada && randomInt <= 9 ? (
+          {questaoSelecionada && (
             <QuestaoTexto pergunta={questaoSelecionada.pergunta} />
-          ) : (
-            <QuestaoImagem random={0} />
           )}
         </div>
         <div className="w-4/5 h-11/12 grid grid-cols-1 md:grid-cols-2 place-self-center m-0 gap-14">
