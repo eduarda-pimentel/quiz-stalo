@@ -1,6 +1,6 @@
 {
     "questao":{
-        "pergunta": "-5x5 + 25 = ?",
+        "pergunta": "5x(-5) + 5x5 = ?",
         "alternativas":["0", "25", "50", "-50"],
         "resposta": 0
     }
