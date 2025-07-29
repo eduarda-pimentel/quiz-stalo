@@ -13,9 +13,9 @@ export default function QuestaoErrada() {
   let navigate = useNavigate();
   return (
     <>
-      <div className="my-40 px-24">
+      <div className="my-36 px-24">
         <div className="items-center justify-center text-center place-self-center mb-2 flex flex-col">
-          <h1 className="text-black text-4xl font-semibold mb-4">
+          <h1 className="text-black text-6xl font-semibold mb-4">
             Que pena! Não foi dessa vez.
           </h1>
         </div>

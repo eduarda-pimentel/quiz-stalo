@@ -1,6 +1,9 @@
 import gis from "../assets/gis/gis-resposta-certa.jpg";
+import balloon from "../assets/gis/balloon.png";
 import type { Route } from "../+types/root";
 import { useNavigate } from "react-router";
+import { motion } from "framer-motion";
+import { Check, SquareCheck } from "lucide-react";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -13,19 +16,42 @@ export default function QuestaoCerta() {
   let navigate = useNavigate();
   return (
     <>
-      <div className="my-40 px-24">
-        <div className="items-center justify-center text-center place-self-center mb-2 flex flex-col">
-          <h1 className="text-black text-4xl font-semibold mb-4">
-           Resposta certa!
-          </h1>
+      <div className="my-36 px-24">
+        <div className="flex flex-row items-center justify-center text-center mb-4 gap-4">
+          <h1 className="text-black text-6xl font-semibold">Resposta certa!</h1>
+          <Check size={50} className="text-green-600" />
         </div>
+
         <div className="flex justify-center">
           <p className="text-3xl text-wrap text-center">
-            Parabéns! Você pode agora pegar o seu brinde. Obrigada por participar!
+            Parabéns! Você pode agora pegar o seu brinde. Obrigada por
+            participar!
           </p>
         </div>
-        <div className="h-[250px] flex justify-center mt-8">
+        <div className="h-[250px] flex justify-between mt-8">
+          <motion.img
+            className="h-full"
+            src={balloon}
+            animate={{ y: -800, opacity: 0 }}
+            transition={{
+              duration: 5,
+              ease: "easeInOut",
+              repeat: Infinity,
+              delay: 0,
+            }}
+          />
           <img className="h-full" src={gis} />
+          <motion.img
+            className="h-full"
+            src={balloon}
+            animate={{ y: -800, opacity: 0 }}
+            transition={{
+              duration: 5,
+              ease: "easeInOut",
+              repeat: Infinity,
+              delay: 0,
+            }}
+          />
         </div>
       </div>
       <div className="flex justify-end mx-10 my-auto">

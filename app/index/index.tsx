@@ -18,7 +18,6 @@ interface FormData {
   telefone: string;
   nomeEmpresa: string;
   cnpj: string;
-  cpf: string;
   estado: string;
   cidade: string;
 }
@@ -31,13 +30,12 @@ export function Index() {
     telefone: "",
     nomeEmpresa: "",
     cnpj: "",
-    cpf: "",
     estado: "",
     cidade: "",
   });
 
   const GOOGLE_APPS_SCRIPT_URL =
-    "https://script.google.com/macros/s/AKfycbxRllKWwfhZyefora3bNO5Lfe3juvGb2Ajm-HtgKoqMIlKOxNk4Dd1631d3DX1vjtXm/exec";
+    "https://script.google.com/macros/s/AKfycbw0_39BRw463lguOeCjGDSz2x5MCOMSu-GK1mbuvsKXZ6oIl0b-CmhIUX_PF_0qWKt5/exec";
 
   const [estados, setEstados] = useState<Estado[]>([]);
   const [cidades, setCidades] = useState<Cidade[]>([]);
@@ -116,12 +114,6 @@ export function Index() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    if (formData.cnpj.trim() === "" && formData.cpf.trim() === "") {
-      setValidationError("Informe o CNPJ ou o CPF!");
-      setIsSubmitting(false);
-      return;
-    }
-
     const dataToSend = new URLSearchParams();
     for (const key in formData) {
       let valueToAppend = String(formData[key as keyof FormData]);
@@ -149,7 +141,6 @@ export function Index() {
         telefone: "",
         nomeEmpresa: "",
         cnpj: "",
-        cpf: "",
         estado: "",
         cidade: "",
       });
@@ -239,7 +230,7 @@ export function Index() {
               htmlFor="nomeEmpresa"
               className="block tracking-wide text-gray-700 text-3xl font-bold mb-1"
             >
-              Empresa
+              Empresa *
             </label>
             <input
               className="sappearance-none block w-full bg-gray-200 text-gray-700 rounded py-2 px-4 leading-tight"
@@ -248,6 +239,7 @@ export function Index() {
               placeholder="Nome da sua empresa"
               value={formData.nomeEmpresa}
               onChange={handleChange}
+              required
             />
           </div>
 
@@ -257,7 +249,7 @@ export function Index() {
               htmlFor="cnpj"
               className="block tracking-wide text-gray-700 text-3xl font-bold mb-1"
             >
-              CNPJ
+              CNPJ *
             </label>
             <InputMask
               placeholder="XX.XXX.XXX/XXXX-XX"
@@ -267,27 +259,11 @@ export function Index() {
               value={formData.cnpj}
               onChange={handleChange}
               className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-2 px-4 leading-tight"
+              required
             />
           </div>
 
           {/* Bloco de Estado e Cidade */}
-          <div>
-            <label
-              htmlFor="cnpj"
-              className="block tracking-wide text-gray-700 text-3xl font-bold mb-1"
-            >
-              CPF
-            </label>
-            <InputMask
-              placeholder="XXX.XXX.XXX-XX"
-              mask="___.___.___-__"
-              replacement={{ _: /\d/ }}
-              id="cpf"
-              value={formData.cpf}
-              onChange={handleChange}
-              className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-2 px-4 leading-tight"
-            />
-          </div>
 
           <div className="flex flex-col md:flex-row gap-7">
             {/* Campo Estado */}

@@ -88,7 +88,13 @@ export default function Questao() {
 
   return (
     <>
-      <div className="flex flex-col mt-40 px-24">
+      <div className="text-4xl font-light flex justify-end px-24">
+        <p className="flex">
+          <span>Tempo:&nbsp;</span>
+          <span>{tempoRestante}&nbsp;s</span>
+        </p>
+      </div>
+      <div className="flex flex-col mt-36 px-24">
         <div className="items-center justify-center text-center place-self-center mb-4 flex flex-col">
           {questaoSelecionada && (
             <QuestaoTexto pergunta={questaoSelecionada.pergunta} />
@@ -117,13 +123,7 @@ export default function Questao() {
             )}
         </div>
       </div>
-      <div className="mt-auto h-[250px] w-full flex justify-between items-center px-14 py-2">
-        <div className="text-3xl font-light flex justify-end">
-          <p className="flex">
-            <span>Tempo restante:&nbsp;</span>
-            <span>{tempoRestante}&nbsp;s</span>
-          </p>
-        </div>
+      <div className="mt-auto h-[250px] w-full flex justify-end items-center px-14 py-2">
         <img className="h-full" src={gis} />
       </div>
     </>
