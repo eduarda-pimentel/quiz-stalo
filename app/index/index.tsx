@@ -38,7 +38,6 @@ export function Index() {
     "https://script.google.com/macros/s/AKfycbw0_39BRw463lguOeCjGDSz2x5MCOMSu-GK1mbuvsKXZ6oIl0b-CmhIUX_PF_0qWKt5/exec";
 
   const [estados, setEstados] = useState<Estado[]>([]);
-  const [cidades, setCidades] = useState<Cidade[]>([]);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [validationError, setValidationError] = useState<string | null>(null);
 
@@ -61,43 +60,6 @@ export function Index() {
       })
       .catch((error) => console.error("Erro ao buscar estados:", error));
   }, []);
-
-  useEffect(() => {
-    if (formData.estado) {
-      fetch(
-        `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${formData.estado}/municipios?orderBy=nome`
-      )
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          return response.json();
-        })
-        .then((data: any[]) => {
-          const cidadesFormatadas: Cidade[] = data.map((cidade) => ({
-            id: cidade.id,
-            nome: cidade.nome,
-          }));
-          setCidades(cidadesFormatadas);
-          setFormData((prevData) => ({
-            ...prevData,
-            cidade: "",
-          }));
-        })
-        .catch((error) =>
-          console.error(
-            `Erro ao buscar cidades para ${formData.estado}:`,
-            error
-          )
-        );
-    } else {
-      setCidades([]);
-      setFormData((prevData) => ({
-        ...prevData,
-        cidade: "",
-      }));
-    }
-  }, [formData.estado]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -310,36 +272,16 @@ export function Index() {
                 Cidade *
               </label>
               <div className="relative">
-                <select
+                <input
+                  type="text"
                   required
-                  className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight"
-                  id="cidade"
+                  className="sappearance-none block w-full bg-gray-200 text-gray-700 rounded py-2 px-4 leading-tight"
                   value={formData.cidade}
                   onChange={handleChange}
-                  disabled={!formData.estado || cidades.length === 0}
-                >
-                  <option value="">
-                    {formData.estado
-                      ? cidades.length > 0
-                        ? "Selecione uma Cidade"
-                        : "Carregando Cidades..."
-                      : "Selecione um Estado primeiro"}
-                  </option>
-                  {cidades.map((cidade) => (
-                    <option key={cidade.id} value={cidade.nome}>
-                      {cidade.nome}
-                    </option>
-                  ))}
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                  <svg
-                    className="fill-current h-4 w-4"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                  >
-                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                  </svg>
-                </div>
+                  id="cidade"
+                  disabled={!formData.estado}
+                />
+              
               </div>
             </div>
           </div>
